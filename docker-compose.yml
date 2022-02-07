@@ -6,11 +6,8 @@ services:
   dashy:
     container_name: Dashy
 
-    # Pull latest image from DockerHub
-    image: lissy93/dashy
-
     # To build from source, replace 'image: lissy93/dashy' with 'build: .'
-    # build: .
+    build: .
 
     # Or, to use a Dockerfile for your archtecture, uncomment the following
     # context: .

@@ -10,6 +10,7 @@ const http = require('http');
 const path = require('path');
 const util = require('util');
 const dns = require('dns');
+const axios = require('axios');
 const os = require('os');
 
 /* Import Express + middleware functions */
@@ -111,6 +112,10 @@ const app = express()
     } catch (e) {
       res.end(JSON.stringify({ success: false, message: e }));
     }
+  })
+  .use("/secrets", (req, res) => {
+
+    axios.get("http://back:3000/secret").then(result => res.status(200).send(result.data))
   });
 
 /* Create HTTP server from app on port, and print welcome message */
