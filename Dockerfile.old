@@ -24,12 +24,28 @@ COPY . ./
 RUN yarn build
 
 # Build the final image
-FROM nginx:1.21
+FROM node:16.13.2-alpine
+
+# Define some ENV Vars
+ENV PORT=80 \
+  DIRECTORY=/app \
+  IS_DOCKER=true
+
+# Create and set the working directory
+WORKDIR ${DIRECTORY}
+
+# Install tini for initialization and tzdata for setting timezone
+RUN apk add --no-cache tzdata tini
 
 # Copy built application from build phase
-COPY --from=BUILD_IMAGE /app/dist /usr/share/nginx/html
-COPY ./nginx.conf  /usr/share/default.conf
+COPY --from=BUILD_IMAGE /app ./
 
-CMD ["/bin/sh", "-c", "envsubst < /usr/share/default.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+# Finally, run start command to serve up the built application
+ENTRYPOINT [ "/sbin/tini", "--" ]
+CMD [ "yarn", "build-and-start" ]
 
-#CMD "envsubst < /tmp/default.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+# Expose given port
+EXPOSE ${PORT}
+
+# Run simple healthchecks every 5 mins, to check the Dashy's everythings great
+HEALTHCHECK --interval=5m --timeout=2s --start-period=30s CMD yarn health-check

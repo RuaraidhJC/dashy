@@ -180,7 +180,7 @@ sections:
   items:
   - title: Shhhhh
     icon: 🙊
-    url: http://localhost:3000/secret
+    url: https://circleci-demo-back.herokuapp.com/secret
     target: modal
 
 - name: International Time
