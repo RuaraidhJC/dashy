@@ -10,7 +10,6 @@ const http = require('http');
 const path = require('path');
 const util = require('util');
 const dns = require('dns');
-const axios = require('axios');
 const os = require('os');
 
 /* Import Express + middleware functions */
