@@ -178,7 +178,7 @@ sections:
 
 - name: Secrets
   items:
-  - title: Shhhhh
+  - title: Shhhhhh
     icon: 🙊
     url: https://circleci-demo-back.herokuapp.com/secret
     target: modal
